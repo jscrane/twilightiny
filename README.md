@@ -3,7 +3,8 @@ View this project on [CADLAB.io](https://cadlab.io/project/1197).
 Twilight-3
 ==========
 
-Twilight with attiny85 and Interrupted.
+Twilight with attiny85 and 
+[Interrupted](https://github.com/jscrane/Interrupted).
 
 Status
 ------
