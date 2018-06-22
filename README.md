@@ -7,6 +7,4 @@ Twilight with attiny85,
 [Interrupted](https://github.com/jscrane/Interrupted) and
 [Tiny Safe Boot](http://jtxp.org/tech/tinysafeboot_en.htm).
 
-Status
-------
-- Power circuitry is untested.
+Unfortunately the board layout is foobed. See the issues marked "Hardware".
