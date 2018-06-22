@@ -22,8 +22,7 @@ Analog ldr(LDR);
 Port portb;
 Pin button(BUTTON, portb, HIGH);
 Pin pir(PIR, portb);
-Pin led(LED, portb);
-Watchdog timer(TIMER, 1);
+Delay timer(TIMER, 1000);
 Devices devices;
 
 unsigned threshold = THRESHOLD, smoothed = threshold, left = 0;
@@ -47,15 +46,14 @@ void setup() {
 #endif
 
 	pinMode(PIR, INPUT);
-	pinMode(BUTTON, INPUT);
+	pinMode(BUTTON, INPUT_PULLUP);
 	pinMode(LED, OUTPUT);
 
-	devices.add(led);
 	devices.add(pir);
 	devices.add(button);
 	devices.add(ldr);
 	devices.add(timer);
-	devices.begin(false);
+	devices.begin();
 
 	uint8_t t = EEPROM[0];
 	unsigned d = 1000;
@@ -72,58 +70,54 @@ void setup() {
 }
 
 void loop() {
-#ifdef DEBUG
-	serial.print("threshold=");
-	serial.print(threshold);
-	serial.print(" smoothed=");
-	serial.print(smoothed);
-	serial.print(" pir=");
-	serial.print(pir.is_on());
-	serial.print(" button=");
-	serial.print(button.is_on());
-	serial.print(" led=");
-	serial.print(led.is_on());
-	serial.print(" left=");
-	serial.print(left);
-	serial.print(" t=");
-	serial.println(millis());
-#endif
+	static bool on;
+
 	switch (devices.select()) {
 	case LDR:
 		smoothed = sample(ldr.read());
 		timer.enable();
 		break;
 	case TIMER:
+#ifdef DEBUG
+		serial.print("threshold=");
+		serial.print(threshold);
+		serial.print(" smoothed=");
+		serial.print(smoothed);
+		serial.print(" pir=");
+		serial.print(pir.is_on());
+		serial.print(" button=");
+		serial.print(button.is_on());
+		serial.print(" led=");
+		serial.print(on);
+		serial.print(" left=");
+		serial.print(left);
+		serial.print(" t=");
+		serial.println(millis());
+#endif
 		ldr.enable();	// sample ldr every second
 		if (left > 0)
 			left--;
-		else if (led.is_on())
+		else if (on) {
 			digitalWrite(LED, LOW);
-		break;
-	case LED:
-		if (led.is_on())
-			left = ON_TIME;
+			on = false;
+		}
 		break;
 	case PIR:
-#ifdef DEBUG
-		serial.print("pir=");
-		serial.println(pir.is_high());
-#endif
-		if (pir.is_high() && smoothed < threshold)
+		if (pir.is_high() && smoothed < threshold) {
 			digitalWrite(LED, HIGH);
-		break;		
+			left = ON_TIME;
+			on = true;
+		}
+		break;
 	case BUTTON:
-#ifdef DEBUG
-		serial.print("button=");
-		serial.println(button.is_high());
-#endif
 		if (button.is_low()) {
 			digitalWrite(LED, HIGH);
+			left = ON_TIME;
+			on = true;
 			down = millis();
-		} else {
+		} else if (millis() - down > HOLD_TIME) {
 			threshold = smoothed + 1;
-			if (millis() - down > HOLD_TIME)
-				EEPROM[0] = threshold / 4;
+			EEPROM[0] = threshold / 4;
 		}
 		break;
 	}
