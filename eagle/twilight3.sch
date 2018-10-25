@@ -12482,6 +12482,9 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <part name="R1" library="resistor" deviceset="R-US_" device="0207/2V" value="22k"/>
 <part name="R3" library="resistor" deviceset="R-US_" device="0207/10" value="1k"/>
 <part name="R6" library="resistor" deviceset="R-US_" device="0207/10" value="47k"/>
+<part name="C4" library="resistor" deviceset="C-EU" device="050-024X044" value="100n"/>
+<part name="P+10" library="supply1" deviceset="VCC" device=""/>
+<part name="GND8" library="supply1" deviceset="GND" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -12523,6 +12526,9 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <instance part="R1" gate="G$1" x="45.72" y="50.8" rot="R90"/>
 <instance part="R3" gate="G$1" x="60.96" y="45.72" rot="R90"/>
 <instance part="R6" gate="G$1" x="71.12" y="53.34" rot="R180"/>
+<instance part="C4" gate="G$1" x="60.96" y="86.36"/>
+<instance part="P+10" gate="VCC" x="60.96" y="91.44"/>
+<instance part="GND8" gate="1" x="60.96" y="78.74"/>
 </instances>
 <busses>
 </busses>
@@ -12565,6 +12571,10 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <segment>
 <pinref part="P+5" gate="VCC" pin="VCC"/>
 <pinref part="R7" gate="G$1" pin="P$2"/>
+</segment>
+<segment>
+<pinref part="C4" gate="G$1" pin="1"/>
+<pinref part="P+10" gate="VCC" pin="VCC"/>
 </segment>
 </net>
 <net name="GND" class="0">
@@ -12622,6 +12632,10 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <segment>
 <pinref part="GND5" gate="1" pin="GND"/>
 <pinref part="R2" gate="G$1" pin="1"/>
+</segment>
+<segment>
+<pinref part="C4" gate="G$1" pin="2"/>
+<pinref part="GND8" gate="1" pin="GND"/>
 </segment>
 </net>
 <net name="+12V" class="0">
