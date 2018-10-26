@@ -41,7 +41,7 @@ unsigned sample(int curr) {
 
 void setup() {
 #ifdef DEBUG
-	serial.begin(115200);
+	serial.begin(TERM_SPEED);
 	serial.println("starting");
 #endif
 
