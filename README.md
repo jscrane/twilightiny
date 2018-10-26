@@ -20,4 +20,4 @@ it drags down the output of
 Version [3](https://cadlab.io/project/1197/9cf4fb193adf9d36c94b128c8913e801d072b348/circuit/ZWFnbGUvdHdpbGlnaHQzLmJyZA%3D%3D) improves the layout some more
 but is (so far) untested.
 
-![alt tag](images/version2.jpg)
+<img src="images/version2.jpg" width="413" height="310" alt="Version 2"/>
