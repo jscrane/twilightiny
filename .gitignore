@@ -8,3 +8,5 @@ eagle/*.lck
 *.ino.o
 *.ino.elf
 *.ino.bin
+*.eep
+*.swp
